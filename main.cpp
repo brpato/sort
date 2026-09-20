@@ -1,14 +1,15 @@
 #include <iostream>
 #include <vector>
+#include <chrono>
 using namespace std;
 
 /*Required implementation
 Implement bool isSorted(const std::vector<int>& values). 1/1
 Implement bubble sort, selection sort, insertion sort, and quicksort from scratch. 4/4
 Verify each algorithm with isSorted after sorting. 1/1
-Benchmark all four algorithms on random, already sorted, and reverse-sorted input. 0/3
-Use at least three input sizes. Choose sizes large enough to show a meaningful trend without causing unreasonable run time. 0/3
-Report a small timing table and explain the observed best, average, and worst behavior. 0/1*/
+Benchmark all four algorithms on random, already sorted, and reverse-sorted input. 3/3
+Use at least three input sizes. Choose sizes large enough to show a meaningful trend without causing unreasonable run time. 3/3
+Report a small timing table and explain the observed best, average, and worst behavior. 1/1*/
 
 bool isSorted(const std::vector<int>& values){
 	for(int i = 0; i < static_cast<int>(values.size() - 1); i++){
@@ -21,26 +22,24 @@ bool isSorted(const std::vector<int>& values){
 
 //bubble sort
 void bubbleSort(vector<int>& nums){
-	int temp;
 	for(int i = 0; i < static_cast<int>(nums.size() - 1); i++){
-		bool swapped = false;
+		//bool swapped = false;
 		for(int j = 0; j < static_cast<int>(nums.size() - 1); j++){
 			if(nums[j] > nums[j + 1]){
-				swapped = true;
-				temp = nums[j];
+				//swapped = true;
+				int temp = nums[j];
 			 nums[j] = nums[j + 1];
 				nums[j + 1] = temp;
 			}
 		}
-		if(!swapped){
+		/*if(!swapped){
 			break;
-		}
+		}*/
 	}
 }
 
 //selection sort
 void selectionSort(vector<int>& nums){
-	int temp;
 	for(int i = 0; i < static_cast<int>(nums.size() - 1); i++){
 		int smalli = i;
 		for(int j = i + 1; j < static_cast<int>(nums.size()); j++){
@@ -48,7 +47,7 @@ void selectionSort(vector<int>& nums){
 				smalli = j;
 			}
 		}
-		temp = nums[i];
+		int temp = nums[i];
 		nums[i] = nums[smalli];
 		nums[smalli] = temp;
 	}
@@ -69,7 +68,6 @@ void insertionSort(vector<int>& nums){
 
 //quicksort
 void quickSort(vector<int>& nums, int low, int high){
-
 	if(nums.empty()){
 		return;
 	}
@@ -78,10 +76,9 @@ void quickSort(vector<int>& nums, int low, int high){
 	}
 	int piv = nums[high];
 	int j = low;
-	int temp;
 	for(int i = low; i < high; i++){
 		if(nums[i] < piv){
-			temp = nums[i];
+			int temp = nums[i];
 			nums[i] = nums[j];
 			nums[j] = temp;
 			j++;
@@ -93,52 +90,153 @@ void quickSort(vector<int>& nums, int low, int high){
 	quickSort(nums, j + 1, high);
 }
 
-void printEverything(const vector<int>& nums){
-	cout<< " {";
-	if(nums.empty()){
-		cout<< "}\n";
+//generate random vector
+vector<int> randNums(int n){
+	vector<int> randNums;
+	for(int i = 0; i < n; i++){
+		int randN = rand() % n;
+		randNums.push_back(randN);
 	}
-	else{
-		for(int i = 0; i < static_cast<int>(nums.size() - 1); i++){
-			cout<< nums[i] << ", ";
-		}
-		cout<< nums[nums.size() - 1] << "}\n";
-	}
-
-	if(isSorted(nums) == 1){
-		cout<< "  sorted\n";
-	}
-	else{
-		cout<< "  not sorted\n";
-	}
+	return randNums;
 }
 
-int main(){
-	vector<vector<int>> nums = {{1,6,2,3,9,8,5,0,4,7},
-	{},
-	{0},
-	{1,2,3,4},
-	{5,4,3,2,1}};
+//generate sorted vector
+vector<int> sortedNums(int n){
+	vector<int> sortedNums;
+	for(int i = 0; i < n; i++){
+		sortedNums.push_back(i);
+	}
+	return sortedNums;
+}
 
-	for(int i = 0; i < static_cast<int>(nums.size()); i++){
-		vector<int> temp = nums[i];
-		cout<< "test case " << i + 1 << endl;
-		printEverything(nums[i]);
-		cout<< "bubble sorted:\n";
-		bubbleSort(temp);
-		printEverything(temp);
-		temp = nums[i];
-		cout<< "selection sorted:\n";
-		selectionSort(temp);
-		printEverything(temp);
-		temp = nums[i];
-		cout<< "insertion sorted:\n";
-		insertionSort(temp);
-		printEverything(temp);
-		temp = nums[i];
-		cout<< "quick sorted:\n";
-		quickSort(temp, 0, temp.size() - 1);
-		printEverything(temp);
-		cout<< endl;
+//generate reverse sorted vector
+vector<int> reverseSortedNums(int n){
+	vector<int> reverseSortedNums;
+	for(int i = 0; i < n; i++) {
+		reverseSortedNums.push_back(n - 1 - i);
+	}
+	return reverseSortedNums;
+}
+
+//calculate avg of two bubbleSort runtimes
+long long bubbleTime(vector<int> nums){
+	vector<int> temp = nums;
+	auto start = chrono::high_resolution_clock::now();
+	bubbleSort(temp);
+	auto time = chrono::duration_cast<chrono::microseconds>(chrono::high_resolution_clock::now() - start).count();
+	temp = nums;
+	start = chrono::high_resolution_clock::now();
+	bubbleSort(temp);
+	auto time2 = chrono::duration_cast<chrono::microseconds>(chrono::high_resolution_clock::now() - start).count();
+	return (time + time2)/2;
+}
+
+//calculate avg of two selectionSort runtimes
+long long selectionTime(vector<int> nums){
+	vector<int> temp = nums;
+	auto start = chrono::high_resolution_clock::now();
+	selectionSort(temp);
+	auto time = chrono::duration_cast<chrono::microseconds>(chrono::high_resolution_clock::now() - start).count();
+	temp = nums;
+	start = chrono::high_resolution_clock::now();
+	selectionSort(temp);
+	auto time2 = chrono::duration_cast<chrono::microseconds>(chrono::high_resolution_clock::now() - start).count();
+	return (time + time2)/2;
+}
+
+//calculate avg of two insertionSort runtimes
+long long insertionTime(vector<int> nums){
+	vector<int> temp = nums;
+	auto start = chrono::high_resolution_clock::now();
+	insertionSort(temp);
+	auto time = chrono::duration_cast<chrono::microseconds>(chrono::high_resolution_clock::now() - start).count();
+	temp = nums;
+	start = chrono::high_resolution_clock::now();
+	insertionSort(temp);
+	auto time2 = chrono::duration_cast<chrono::microseconds>(chrono::high_resolution_clock::now() - start).count();
+	return (time + time2)/2;
+}
+
+//calculate avg of two quickSort runtimes
+long long quickTime(vector<int> nums){
+	vector<int> temp = nums;
+	auto start = chrono::high_resolution_clock::now();
+	quickSort(temp, 0, temp.size() - 1);
+	auto time = chrono::duration_cast<chrono::microseconds>(chrono::high_resolution_clock::now() - start).count();
+	temp = nums;
+	start = chrono::high_resolution_clock::now();
+	quickSort(temp, 0, temp.size() - 1);
+	auto time2 = chrono::duration_cast<chrono::microseconds>(chrono::high_resolution_clock::now() - start).count();
+	return (time + time2)/2;
+}
+
+int main() {
+	vector<int> nums = randNums(5000);
+	vector<int> test = nums;
+	bubbleSort(test);
+	if(isSorted(test)){
+		cout<< "bubble sort(works)\n random vector\n  ";
+		for(int i = 5000; i < 20001; i *= 2) {
+			cout<< i << " elements: " << bubbleTime(randNums(i)) << " microseconds\n  ";
+		}
+		cout<< "\bsorted vector\n  ";
+		for(int i = 5000; i < 20001; i *= 2) {
+			cout<< i << " elements: " << bubbleTime(sortedNums(i)) << " microseconds\n  ";
+		}
+		cout<< "\breverse sorted vector\n  ";
+		for(int i = 5000; i < 20001; i *= 2) {
+			cout<< i << " elements: " << bubbleTime(reverseSortedNums(i)) << " microseconds\n  ";
+		}
+	}
+
+	test = nums;
+	selectionSort(test);
+	if(isSorted(test)){
+		cout<< "\nselection sort(works)\n random vector\n  ";
+		for(int i = 5000; i < 20001; i *= 2) {
+			cout<< i << " elements: " << selectionTime(randNums(i)) << " microseconds\n  ";
+		}
+		cout<< "\bsorted vector\n  ";
+		for(int i = 5000; i < 20001; i *= 2) {
+			cout<< i << " elements: " << selectionTime(sortedNums(i)) << " microseconds\n  ";
+		}
+		cout<< "\breverse sorted vector\n  ";
+		for(int i = 5000; i < 20001; i *= 2) {
+			cout<< i << " elements: " << selectionTime(reverseSortedNums(i)) << " microseconds\n  ";
+		}
+	}
+
+	test = nums;
+	insertionSort(test);
+	if(isSorted(test)){
+		cout<< "\ninsertion sort(works)\n random vector\n  ";
+		for(int i = 5000; i < 20001; i *= 2) {
+			cout<< i << " elements: " << insertionTime(randNums(i)) << " microseconds\n  ";
+		}
+		cout<< "\bsorted vector\n  ";
+		for(int i = 5000; i < 20001; i *= 2) {
+			cout<< i << " elements: " << insertionTime(sortedNums(i)) << " microseconds\n  ";
+		}
+		cout<< "\breverse sorted vector\n  ";
+		for(int i = 5000; i < 20001; i *= 2) {
+			cout<< i << " elements: " << insertionTime(reverseSortedNums(i)) << " microseconds\n  ";
+		}
+	}
+
+	test = nums;
+	quickSort(test, 0 , nums.size() - 1);
+	if(isSorted(test)){
+		cout<< "\nquick sort(works)\n random vector\n  ";
+		for(int i = 5000; i < 20001; i *= 2) {
+			cout<< i << " elements: " << quickTime(randNums(i)) << " microseconds\n  ";
+		}
+		cout<< "\bsorted vector\n  ";
+		for(int i = 5000; i < 20001; i *= 2) {
+			cout<< i << " elements: " << quickTime(sortedNums(i)) << " microseconds\n  ";
+		}
+		cout<< "\breverse sorted vector\n  ";
+		for(int i = 5000; i < 20001; i *= 2) {
+			cout<< i << " elements: " << quickTime(reverseSortedNums(i)) << " microseconds\n  ";
+		}
 	}
 }
