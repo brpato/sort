@@ -23,7 +23,7 @@ bool isSorted(const std::vector<int>& values){
 
 //bubble sort
 void bubbleSort(vector<int>& nums){
-	//for(int j = 0; j < static_cast<int>(nums.size() - 1); j++){
+	for(int j = 0; j < static_cast<int>(nums.size() - 1); j++){
 		//bool swapped = false;
 		for(int i = 0; i < static_cast<int>(nums.size() - 1); i++){
 			if(nums[i] > nums[i + 1]){
@@ -36,7 +36,7 @@ void bubbleSort(vector<int>& nums){
 		/*if(!swapped){
 			break;
 		}*/
-	//}
+	}
 }
 
 //selection sort
@@ -171,21 +171,21 @@ long long quickTime(vector<int> nums){
 	return (time + time2)/2;
 }
 
-int main() {
+int main(){
 	vector<int> nums = randNums(5000);
 	vector<int> test = nums;
 	bubbleSort(test);
 	if(isSorted(test)){
 		cout<< "bubble sort(works)\n random vector\n  ";
-		for(int i = 5000; i < 20001; i *= 2) {
+		for(int i = 5000; i < 20001; i *= 2){
 			cout<< i << " elements: " << bubbleTime(randNums(i)) << " microseconds\n  ";
 		}
 		cout<< "\bsorted vector\n  ";
-		for(int i = 5000; i < 20001; i *= 2) {
+		for(int i = 5000; i < 20001; i *= 2){
 			cout<< i << " elements: " << bubbleTime(sortedNums(i)) << " microseconds\n  ";
 		}
 		cout<< "\breverse sorted vector\n  ";
-		for(int i = 5000; i < 20001; i *= 2) {
+		for(int i = 5000; i < 20001; i *= 2){
 			cout<< i << " elements: " << bubbleTime(reverseSortedNums(i)) << " microseconds\n  ";
 		}
 	}
@@ -194,15 +194,15 @@ int main() {
 	selectionSort(test);
 	if(isSorted(test)){
 		cout<< "\nselection sort(works)\n random vector\n  ";
-		for(int i = 5000; i < 20001; i *= 2) {
+		for(int i = 5000; i < 20001; i *= 2){
 			cout<< i << " elements: " << selectionTime(randNums(i)) << " microseconds\n  ";
 		}
 		cout<< "\bsorted vector\n  ";
-		for(int i = 5000; i < 20001; i *= 2) {
+		for(int i = 5000; i < 20001; i *= 2){
 			cout<< i << " elements: " << selectionTime(sortedNums(i)) << " microseconds\n  ";
 		}
 		cout<< "\breverse sorted vector\n  ";
-		for(int i = 5000; i < 20001; i *= 2) {
+		for(int i = 5000; i < 20001; i *= 2){
 			cout<< i << " elements: " << selectionTime(reverseSortedNums(i)) << " microseconds\n  ";
 		}
 	}
@@ -211,15 +211,15 @@ int main() {
 	insertionSort(test);
 	if(isSorted(test)){
 		cout<< "\ninsertion sort(works)\n random vector\n  ";
-		for(int i = 5000; i < 20001; i *= 2) {
+		for(int i = 5000; i < 20001; i *= 2){
 			cout<< i << " elements: " << insertionTime(randNums(i)) << " microseconds\n  ";
 		}
 		cout<< "\bsorted vector\n  ";
-		for(int i = 5000; i < 20001; i *= 2) {
+		for(int i = 5000; i < 20001; i *= 2){
 			cout<< i << " elements: " << insertionTime(sortedNums(i)) << " microseconds\n  ";
 		}
 		cout<< "\breverse sorted vector\n  ";
-		for(int i = 5000; i < 20001; i *= 2) {
+		for(int i = 5000; i < 20001; i *= 2){
 			cout<< i << " elements: " << insertionTime(reverseSortedNums(i)) << " microseconds\n  ";
 		}
 	}
@@ -228,15 +228,15 @@ int main() {
 	quickSort(test, 0 , nums.size() - 1);
 	if(isSorted(test)){
 		cout<< "\nquick sort(works)\n random vector\n  ";
-		for(int i = 5000; i < 20001; i *= 2) {
+		for(int i = 5000; i < 20001; i *= 2){
 			cout<< i << " elements: " << quickTime(randNums(i)) << " microseconds\n  ";
 		}
 		cout<< "\bsorted vector\n  ";
-		for(int i = 5000; i < 20001; i *= 2) {
+		for(int i = 5000; i < 20001; i *= 2){
 			cout<< i << " elements: " << quickTime(sortedNums(i)) << " microseconds\n  ";
 		}
 		cout<< "\breverse sorted vector\n  ";
-		for(int i = 5000; i < 20001; i *= 2) {
+		for(int i = 5000; i < 20001; i *= 2){
 			cout<< i << " elements: " << quickTime(reverseSortedNums(i)) << " microseconds\n  ";
 		}
 	}
