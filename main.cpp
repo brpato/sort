@@ -22,20 +22,20 @@ bool isSorted(const std::vector<int>& values){
 
 //bubble sort
 void bubbleSort(vector<int>& nums){
-	for(int i = 0; i < static_cast<int>(nums.size() - 1); i++){
+	//for(int j = 0; j < static_cast<int>(nums.size() - 1); j++){
 		//bool swapped = false;
-		for(int j = 0; j < static_cast<int>(nums.size() - 1); j++){
-			if(nums[j] > nums[j + 1]){
+		for(int i = 0; i < static_cast<int>(nums.size() - 1); i++){
+			if(nums[i] > nums[i + 1]){
 				//swapped = true;
-				int temp = nums[j];
-			 nums[j] = nums[j + 1];
-				nums[j + 1] = temp;
+				int temp = nums[i];
+			 nums[i] = nums[i + 1];
+				nums[i + 1] = temp;
 			}
 		}
 		/*if(!swapped){
 			break;
 		}*/
-	}
+	//}
 }
 
 //selection sort
