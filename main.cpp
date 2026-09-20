@@ -11,6 +11,7 @@ Benchmark all four algorithms on random, already sorted, and reverse-sorted inpu
 Use at least three input sizes. Choose sizes large enough to show a meaningful trend without causing unreasonable run time. 3/3
 Report a small timing table and explain the observed best, average, and worst behavior. 1/1*/
 
+//check if vector is sorted
 bool isSorted(const std::vector<int>& values){
 	for(int i = 0; i < static_cast<int>(values.size() - 1); i++){
 		if(values[i] > values[i + 1]){
